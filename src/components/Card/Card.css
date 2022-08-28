@@ -1,0 +1,32 @@
+.card {
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.card__name {
+  text-align: center;
+  color: #fb5;
+  font-size: 20px;
+}
+
+.card__special {
+  border-bottom: 1.5px solid #fb5;
+  padding-bottom: 1rem;
+}
+
+.card__title {
+  font-weight: bold;
+  margin: 12px 0;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.863);
+}
+
+.card__ul {
+  margin-top: 8px;
+  color: #ccc;
+}
+
+.card__ul li {
+  line-height: 1.4;
+}
