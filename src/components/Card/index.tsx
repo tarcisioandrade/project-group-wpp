@@ -28,9 +28,7 @@ const Card = ({ data }: Props) => {
 
   useEffect(() => {
     setSpecialServices(
-      services.filter(
-        (services) => services.special === true
-      ) as ServiceFiltred[]
+      services.filter((services) => services.special) as ServiceFiltred[]
     );
   }, []);
 
