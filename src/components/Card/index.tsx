@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DataType, ServiceFiltred, Services } from "../../types/DataType";
+import { DataType, Services } from "../../types/DataType";
 import "./Card.css";
 
 type Props = {
@@ -7,29 +7,24 @@ type Props = {
 };
 
 const Card = ({ data }: Props) => {
-  const [specialServices, setSpecialServices] = useState<ServiceFiltred[]>([]);
-
-  const services = data.servicos.map((item) => {
-    const special = item.texts.find(
-      (services) => services.key === "Serviço Especial"
-    );
-    const price = item.texts.find((services) => services.key === "Preço");
-    const description = item.texts.find(
-      (services) => services.key === "Descrição"
-    );
-
-    return {
-      name: item.nome,
-      price,
-      description,
-      special: !!special,
-    };
-  });
+  const [specialServices, setSpecialServices] = useState<Services[]>([]);
+  const [allServices, setAllServices] = useState<Services[]>([]);
 
   useEffect(() => {
-    setSpecialServices(
-      services.filter((services) => services.special) as ServiceFiltred[]
-    );
+    data.servicos.map((item) => {
+      const auth = item.texts
+        .map((it) => it.value === item.nome)
+        .includes(true);
+      if (auth) {
+        setSpecialServices((prev) => [...prev, item]);
+      } else {
+        return;
+      }
+    });
+
+    data.servicos.map((item) => {
+      setAllServices((prev) => [...prev, item]);
+    });
   }, []);
 
   return (
@@ -37,20 +32,21 @@ const Card = ({ data }: Props) => {
       <div className="card__name">{data.dados.nome}</div>
       <div className="card__special">
         <div className="card__title">- Serviços Especiais</div>
-        {specialServices?.map((item, i) => (
+
+        {specialServices.map((item, i) => (
           <ul key={i} className="card__ul">
-            <li>{item.name}</li>
-            <li>{item.price.value}</li>
+            <li>{item.nome}</li>
+            <li>{item.texts[1].value}</li>
           </ul>
         ))}
       </div>
 
       <div className="card__services">
         <div className="card__title">- Todos os Serviços</div>
-        {services.map((item, i) => (
+        {allServices.map((item, i) => (
           <ul key={i} className="card__ul">
-            <li style={{ fontSize: "18px" }}>{item.name}</li>
-            <li style={{ color: "#999" }}>{item.description?.value}</li>
+            <li style={{ fontSize: "18px" }}>{item.nome}</li>
+            <li style={{ color: "#999" }}>{item.texts[0].value}</li>
           </ul>
         ))}
       </div>
